@@ -46,6 +46,15 @@ transform_data = BashOperator(
     dag = dag
 )
 
+""" def task1():
+ print ("Executing Task 1")
+
+task_1 = PythonOperator(
+ task_id='task_1',
+ python_callable=task1,
+ dag=dag,
+) """
+
 #tasks pipeline
 extract_data_from_csv >> consolidate_data >> transform_data
 
