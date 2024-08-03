@@ -1,22 +1,11 @@
-FROM python:3.9-slim
+FROM apache/airflow:latest-python3.8
+USER root
 
-# Establish a working folder
-WORKDIR /app
+ARG AIRFLOW_HOME=/opt/airflow
+ADD dags /opt/airflow/dags
 
-# Establish dependencies
-COPY requirements.txt .
-RUN python -m pip install -U pip wheel && \
-    pip install -r requirements.txt
+USER airflow
+RUN pip install --upgrade pip
+#RUN pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org boto3
 
-# Copy source files last because they change the most
-COPY service ./service
-
-# Become non-root user
-RUN useradd -m -r service && \
-    chown -R service:service /app
-USER service
-
-# Run the service on port 8000
-ENV PORT 8000
-EXPOSE $PORT
-CMD ["gunicorn", "service:app", "--bind", "0.0.0.0:8000"]
+USER ${AIRFLOW_UID}
