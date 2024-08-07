@@ -2,6 +2,7 @@
 from datetime import timedelta
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
+#from airflow.operators.python_operator import PythonOperator
 from airflow.utils.dates import days_ago
 
 #DAG argument
@@ -54,7 +55,7 @@ task_1 = PythonOperator(
  python_callable=task1,
  dag=dag,
 ) """
-
+   
 #tasks pipeline
 extract_data_from_csv >> consolidate_data >> transform_data
 
